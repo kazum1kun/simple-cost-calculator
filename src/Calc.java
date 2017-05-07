@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.function.UnaryOperator;
@@ -19,7 +21,7 @@ import java.util.function.UnaryOperator;
  * Main GUI class for the calculator
  *
  * @author Xuanli Lin
- * @version alpha-0.0.1
+ * @version alpha-0.0.2
  */
 public class Calc extends Application {
     // Input labels and fields
@@ -65,6 +67,15 @@ public class Calc extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    // Utility to round numbers
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override
@@ -155,11 +166,15 @@ public class Calc extends Application {
             if (isReadyForMeterCalc()) {
                 double height = Double.parseDouble(heightField.getText().trim());
                 double loss = Double.parseDouble(lossField.getText().trim());
-                double laceWidth = Double.parseDouble(laceWidthField.getText().trim());
                 double multiplicity = Double.parseDouble(multiplicityField.getText().trim());
-                double meterNumber = Math.ceil((height + loss) / laceWidth) * multiplicity;
-                int meterNumberInt = (int) meterNumber;
-                meterNumberField.setText(meterNumberInt + "");
+                double laceWidth;
+                if (!laceWidthField.getText().trim().isEmpty()) {
+                    laceWidth = Double.parseDouble(laceWidthField.getText().trim());
+                } else {
+                    laceWidth = 1;
+                }
+                double meterNumber = (height + loss) / laceWidth * multiplicity;
+                meterNumberField.setText(round(meterNumber, 2) + "");
             }
         });
     }
@@ -175,7 +190,6 @@ public class Calc extends Application {
     private boolean isReadyForMeterCalc() {
         return !multiplicityField.getText().trim().isEmpty() &&
                 !heightField.getText().trim().isEmpty() &&
-                !lossField.getText().trim().isEmpty() &&
-                !laceWidthField.getText().trim().isEmpty();
+                !lossField.getText().trim().isEmpty();
     }
 }
