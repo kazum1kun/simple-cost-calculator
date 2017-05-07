@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="simple-cost-calculator:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/simple_cost_calculator_jar</output-path>
-    <root id="archive" name="simple-cost-calculator.jar">
-      <element id="module-output" name="simple-cost-calculator" />
-    </root>
-  </artifact>
-</component>
