@@ -13,7 +13,7 @@ None at the moment.
 ## Changelog
 ### Version 0.0.2 - May 7, 17
 **FIX** Output now rounds to 2 digits after decimal point. This
-is caused by an unclear specification.
+was caused by an unclear specification.
 
 **FIX** Program will now treat empty laceWidth as 1 instead of 0,
  as per request.
